@@ -1,0 +1,8 @@
+[grid]
+  encodings: WALL(W)
+  size: (4 x 3)
+  data: """
+    WWWW
+    W  W
+    WWW
+    """

@@ -1,0 +1,6 @@
+1) vérifier qu'on a bien deux valeur pour size (une largeur et une hauteur)
+2) pour les encodings
+		- verifier qu'on a une lettre par encoding et pas un mot (ex WALL (OOPS), on ne peut pas avoir OOPS car c'est un mot)
+		- verifier qu'on a pas deux fois la meme lettre pour un encoding
+		- verifier qu'on a pas deux encodings différent pour la même lettre
+		- verifier que l'encoding existe (dans le sujet)

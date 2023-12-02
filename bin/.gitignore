@@ -1,0 +1,14 @@
+/.settings/
+/fr/
+/src/
+/uge/
+/badGridDataEncodingDefinedTwice.map
+/badGridDataWidth.map
+/badGridDataEncodingNotALetter.map
+/badGridDataEncodingUnknownTile.map
+/badGridDataHeight.map
+/badGridDataMissingGridData.map
+/badGridDataMissingSize.map
+/badGridDataMissingEncodings.map
+/fun.map
+/monster_house.map
