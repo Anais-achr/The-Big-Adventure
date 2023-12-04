@@ -1,11 +1,19 @@
 package fr.umlv.projet;
 
+import fr.umlv.zen5.KeyboardKey;
+
 public class Movement{
+  static void playerInput(Player player, KeyboardKey pressedKey) {
+    switch(pressedKey) {
+      case UP -> Movement.playerMovement(player, "up");
+      case DOWN -> Movement.playerMovement(player, "down");
+      case LEFT -> Movement.playerMovement(player, "left");
+      case RIGHT -> Movement.playerMovement(player, "right");
+      default -> throw new IllegalArgumentException("Unexpected value: " + pressedKey);
+    }
+  }
   
-  
-  
-  
-  static void playerMovement(Player player, String direction) {
+  static void playerMovement(Player player, String direction) {   
     switch(direction) {
       case "up" ->player.setDirection("up");   
       case "down" ->player.setDirection("down");  

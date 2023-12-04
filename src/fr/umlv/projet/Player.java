@@ -16,11 +16,11 @@ public class Player{
     public Player(int x, int y){
       Objects.requireNonNull(x);
       Objects.requireNonNull(y);
-      this.hitboxWidth = 36;
-      this.hitboxHeight = 36;
-      this.xHitbox = x + 6;
-      this.yHitbox = y + 6;
-      this.speed = 4;
+      this.hitboxWidth = 38;
+      this.hitboxHeight = 38;
+      this.xHitbox = x + 10;
+      this.yHitbox = y + 10;
+      this.speed = 6;
       this.x = x;
       this.y = y;
       this.setCollision(false);
@@ -46,7 +46,6 @@ public class Player{
       this.xHitbox = x + 6;
     }
 
-    
     public boolean isObstacle(){
       return false;
     }
