@@ -1,4 +1,4 @@
-package fr.uge.map;
+package fr.umlv.map;
 
 public interface Element {
     public enum Elem {

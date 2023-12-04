@@ -1,4 +1,4 @@
-package fr.uge.lexer;
+package fr.umlv.lexer;
 
 import static java.util.stream.Collectors.joining;
 import java.util.stream.Stream;

@@ -1,4 +1,4 @@
-package fr.uge.lexer;
+package fr.umlv.lexer;
 
 import java.util.Objects;
 

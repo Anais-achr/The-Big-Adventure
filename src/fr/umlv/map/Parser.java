@@ -1,4 +1,4 @@
-package fr.uge.map;
+package fr.umlv.map;
 
 import java.io.IOException;
 import java.nio.file.Files;

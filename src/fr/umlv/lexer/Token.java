@@ -1,4 +1,4 @@
-package fr.uge.lexer;
+package fr.umlv.lexer;
 
   public enum Token {
 	SECTION("grid|element|data|size|encodings"),
