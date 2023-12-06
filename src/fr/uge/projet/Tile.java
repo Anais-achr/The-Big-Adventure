@@ -8,8 +8,6 @@ public record Tile(BufferedImage image, boolean collision) {
   public Tile{
     Objects.requireNonNull(image);
     Objects.requireNonNull(collision);
-    
-    
   }
 
 }

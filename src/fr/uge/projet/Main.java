@@ -3,6 +3,8 @@ package fr.uge.projet;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.HashMap;
+import fr.uge.map.*;
 
 import javax.imageio.ImageIO;
 
@@ -12,77 +14,70 @@ import fr.umlv.zen5.Event.Action;
 import fr.umlv.zen5.ScreenInfo;
 
 public class Main {
- ;
-  final static int tileSize = 48;
-  final static int gridWidth = 6;
-  final static int gridHeight = 6;
-  final int maxScreenColumn = 32;
-  final int maxScreenRow = 16;  
-  public static Tile[][] tiles; // ne doit pas être public et doit être changer
-    
-  
-  public static void main(String[] args) {   
-    
-    Application.run(Color.BLACK, context -> {
-     
-      ScreenInfo screenInfo = context.getScreenInfo();
-      float width = screenInfo.getWidth();
-      float height = screenInfo.getHeight();
-      Player player = new Player(1*tileSize, 1*tileSize);
-      
-      
-      // Initialisation d'une map à la main pour des tests
-      tiles = new Tile[gridWidth][gridHeight];
-      for(var i= 0; i < gridWidth; i++) {
-        for(var j =0; j < gridHeight; j++) {
-          if((i==0||i==5)||(j==0||j==5)) {
-            String tileName = "brick";
-            BufferedImage image = null;
-            try(var input = Main.class.getResourceAsStream("/Images/"+tileName+".png")) {
-              image = ImageIO.read(input);
-            } catch (IOException e) {          
-              e.printStackTrace();
-            }           
-            tiles[i][j] = new Tile(image, true);
-          }  else {
-          String tileName2 = "tile";
-          BufferedImage image2 = null;
-          try(var input = Main.class.getResourceAsStream("/Images/"+tileName2+".png")) {
-            image2 = ImageIO.read(input);
-          } catch (IOException e) {          
-            e.printStackTrace();
-          }           
-          tiles[i][j] = new Tile(image2, false);
-          }
-        }
-      }
-  
 
+    final static double TILE_SIZE_WIDTH = 1;
+    final static double TILE_SIZE_HEIGHT = 1;
+
+    public static Tile[][] tiles;
+
+    public static void main(String[] args) {
+        Parser parser = new Parser();
+        var allData = parser.isValidFile("monster_house.map");
+
+        HashMap<String, ElementValue> size = allData.get("size").getHashMapValue();
+        HashMap<String, ElementValue> encodings = allData.get("encodings").getHashMapValue();
+        int widthGrid = size.get("width").getIntValue();
+        int heightGrid = size.get("height").getIntValue();
+        String data = allData.get("data").getStringValue();
+
+        Application.run(Color.BLACK, context -> {
+            ScreenInfo screenInfo = context.getScreenInfo();
+            float screenWidth = screenInfo.getWidth();
+            float screenHeight = screenInfo.getHeight();
             
-                 
-      Graphic area = new Graphic();
-      
-      
-      for(;;) {
-        area.draw(context,player,tiles, width, height);  
-        Event event = context.pollOrWaitEvent(16);
-        
-        if(event == null) {
-          continue;
+            float scaleWidth = screenWidth / widthGrid;
+            float scaleHeight = screenHeight / heightGrid;
+            
+            int adjustedTileSizeWidth = (int) (scaleWidth);
+            int adjustedTileSizeHeight = (int) (scaleHeight);
+
+            Player player = new Player(15 * adjustedTileSizeWidth, 5 * adjustedTileSizeHeight);
+
+            tiles = new Tile[widthGrid][heightGrid];
+            for (var i = 0; i < widthGrid; i++) {
+                for (var j = 0; j < heightGrid; j++) {
+                    char el = data.charAt(i * j);
+                    String nameEncoding = parser.findEncodingName(el, encodings);
+                    BufferedImage image = loadImage(nameEncoding);
+                    tiles[i][j] = new Tile(image, nameEncoding != null);
+                }
+            }
+
+            Graphic area = new Graphic();
+
+            for (;;) {
+                area.draw(context, player, tiles, screenWidth, screenHeight, widthGrid, heightGrid, adjustedTileSizeWidth, adjustedTileSizeHeight);
+                Event event = context.pollOrWaitEvent(16);
+
+                if (event != null && event.getAction() == Action.KEY_PRESSED) {
+                    var pressedKey = event.getKey();
+                    try {
+                        Movement.playerInput(player, pressedKey, context, adjustedTileSizeWidth, adjustedTileSizeHeight);
+                    } catch (IllegalArgumentException e) {
+                        System.err.println("Pressed Key has no usage");
+                    }
+                }
+            }
+        });
+    }
+
+    private static BufferedImage loadImage(String name) {
+        String imageName = (name != null) ? name : "tile";
+        try (var input = Main.class.getResourceAsStream("/Images/" + imageName + ".png")) {
+            return ImageIO.read(input);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
-        Action action = event.getAction();        
-        // La gestion d'évènement doit se passer dans le context
-        if (action == Action.KEY_PRESSED) {         
-          var pressedKey = event.getKey();        
-            try{
-              Movement.playerInput( player, pressedKey, context);
-            }
-            catch(IllegalArgumentException e) {
-              System.err.println("Pressed Key has no usage");
-            }
-          }
-        }  
-       
-  });
- }
+    }
 }
