@@ -22,7 +22,7 @@ public class Main {
 
     public static void main(String[] args) {
         Parser parser = new Parser();
-        var allData = parser.isValidFile("monster_house.map");
+        var allData = parser.isValidFile("fun.map");
 
         HashMap<String, ElementValue> size = allData.get("size").getHashMapValue();
         HashMap<String, ElementValue> encodings = allData.get("encodings").getHashMapValue();
