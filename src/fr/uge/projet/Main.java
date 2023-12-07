@@ -49,7 +49,7 @@ public class Main {
                     char el = data.charAt(i * j);
                     String nameEncoding = parser.findEncodingName(el, encodings);
                     BufferedImage image = loadImage(nameEncoding);
-                    tiles[i][j] = new Tile(image, nameEncoding != null);
+                    tiles[i][j] = new Tile(image, false);
                 }
             }
 

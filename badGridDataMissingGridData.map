@@ -1,0 +1,11 @@
+[grid]
+	size : (5 x 6)
+	encoding : WALL(W) FENCE(F) LAVA(L)
+	data: """
+ WWWWW
+ W L W
+ W   W
+ W L W
+ W   W
+ WWWWW
+	"""
